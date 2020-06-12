@@ -9,6 +9,8 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -40,7 +42,8 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
     private String userId = FirebaseAuth.getInstance().getUid();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     public int a = 1;
-
+    private Button pickup;
+    private  LatLng PickLocation;
   /*  @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +70,20 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+
+        pickup = (Button) findViewById(R.id.cusMapReqBtn);
+
+        pickup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createchild();
+                PickLocation = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(PickLocation).title("Pickup here"));
+                pickup.setText("Geting your Rider");
+
+            }
+        });
+
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(CustomerMapsActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_REQUEST_CODE);
         }else {
@@ -76,7 +93,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
     }
 
     private void createchild() {
-        if(a==1) {
+         {
             DatabaseReference myRef = database.getReference().child("CustomerLocation").child("userId").child("getLatitude");
             DatabaseReference myRef2 = database.getReference().child("CustomerLocation").child("userId").child("getLongitude");
             myRef.setValue(String.valueOf(mLastLocation.getLatitude()));
@@ -153,7 +170,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-        createchild();
+
 
     }
 
@@ -177,48 +194,8 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        super.onStart();
-        a = 1;
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        DatabaseReference deleteRef = database.getReference().child("CustomerLocation").child("userId").child("getLatitude");
-        DatabaseReference deleteRef2 = database.getReference().child("CustomerLocation").child("userId").child("getLongitude");
-        deleteRef.setValue(null);
-        deleteRef2.setValue(null);
-        deleteRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                // Log.d(TAG, "Value is: " + value);
-                if(value!=null){
-                    a =1;
-                }else {
-                    a = 0;
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                //  Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
 
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        DatabaseReference deleteRef = database.getReference().child("CustomerLocation").child("userId").child("getLatitude");
-        DatabaseReference deleteRef2 = database.getReference().child("CustomerLocation").child("userId").child("getLongitude");
-        deleteRef.setValue(null);
-        deleteRef2.setValue(null);
-    }
+
 }

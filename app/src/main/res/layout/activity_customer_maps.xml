@@ -6,9 +6,17 @@
     tools:context=".CustomerMapsActivity" >
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:id="@+id/cusMapBtn"/>
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cusMapBtn"/>
+        android:text="Call Rider"
+        android:id="@+id/cusMapReqBtn"
+        android:layout_gravity="bottom"/>
+
     <fragment
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/map"

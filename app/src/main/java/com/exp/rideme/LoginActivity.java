@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
                                 loginNumber =0;
-                                Intent intent = new Intent(LoginActivity.this,CActivity.class);
+                                Intent intent = new Intent(LoginActivity.this,CustomerMapsActivity.class);
                                 startActivity(intent);
                                 finish();
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RideMe</string>
+    <string name="title_activity_customer_maps">Map</string>
 </resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "358403967028",
+    "firebase_url": "https://rideme3.firebaseio.com",
+    "project_id": "rideme3",
+    "storage_bucket": "rideme3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358403967028:android:342db9d748d842c049a261",
+        "android_client_info": {
+          "package_name": "com.exp.rideme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358403967028-bdun02a54o32jqc85i7i47qlbf8frkr3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.exp.rideme",
+            "certificate_hash": "e26df81672f4e6d8b0971243eeea5417454e08f4"
+          }
+        },
+        {
+          "client_id": "358403967028-5gkbvqk629so26uhm7tivruemi87uf7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDon3sfe5e0uYvyAgG4gt0caStdjACnY74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358403967028-5gkbvqk629so26uhm7tivruemi87uf7l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

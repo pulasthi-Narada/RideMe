@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "358403967028",
-    "firebase_url": "https://rideme3.firebaseio.com",
-    "project_id": "rideme3",
-    "storage_bucket": "rideme3.appspot.com"
+    "project_number": "82195532430",
+    "firebase_url": "https://rideme-ccefd.firebaseio.com",
+    "project_id": "rideme-ccefd",
+    "storage_bucket": "rideme-ccefd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:358403967028:android:342db9d748d842c049a261",
+        "mobilesdk_app_id": "1:82195532430:android:207adc8a762ea599a9d7df",
         "android_client_info": {
           "package_name": "com.exp.rideme"
         }
       },
       "oauth_client": [
         {
-          "client_id": "358403967028-bdun02a54o32jqc85i7i47qlbf8frkr3.apps.googleusercontent.com",
+          "client_id": "82195532430-i0dvj5iima8b3j64t08com35rdngh2ld.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.exp.rideme",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "358403967028-5gkbvqk629so26uhm7tivruemi87uf7l.apps.googleusercontent.com",
+          "client_id": "82195532430-71vmis6uique2iqn55cil986sfq7796t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDon3sfe5e0uYvyAgG4gt0caStdjACnY74"
+          "current_key": "AIzaSyBlCtWdLNGf-nsRQ3LMPQFA7Al4-MBzxi8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "358403967028-5gkbvqk629so26uhm7tivruemi87uf7l.apps.googleusercontent.com",
+              "client_id": "82195532430-71vmis6uique2iqn55cil986sfq7796t.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

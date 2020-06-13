@@ -22,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -65,6 +66,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
                 createchild();
                 PickLocation = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(PickLocation).title("Pickup here"));
+
                 pickup.setText("Geting your Driver");
 
                 getRider();
@@ -80,10 +82,11 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
 
     }
 
+    private Marker mDriverMarker;
     private void getRider() {
 
         DatabaseReference  GetingDriverLocation = database.getReference();
-      //  DatabaseReference  GetingDriverLocation2 = database.getReference().child("DriverLocation").child("userId").child("getLongitude");
+
         GetingDriverLocation.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -92,13 +95,27 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
                         try {
                             String Latitude = Objects.requireNonNull(dataSnapshot.child("DriverLocation").child("userId").child("getLatitude").getValue()).toString();
                             String Longitude = Objects.requireNonNull(dataSnapshot.child("DriverLocation").child("userId").child("getLongitude").getValue()).toString();
-                            Toast.makeText(CustomerMapsActivity.this, Latitude + " " + Longitude, Toast.LENGTH_SHORT).show();
+                            double la = Double.parseDouble(Latitude);
+                            double lo = Double.parseDouble(Longitude);
+                            Toast.makeText(CustomerMapsActivity.this, "driver found", Toast.LENGTH_SHORT).show();
+                              LatLng driverLatitudeAndLongitude = new LatLng(la,lo);
+                            if(mDriverMarker !=null){
+                                mDriverMarker.remove();
+
+                            }
+                            mDriverMarker =mMap.addMarker(new MarkerOptions().position(driverLatitudeAndLongitude).title("Your Driver"));
+
                         }catch (Exception e){
+
                             Toast.makeText(CustomerMapsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                       //  Toast.makeText(CustomerMapsActivity.this, "have", Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(CustomerMapsActivity.this, "no 1 driver", Toast.LENGTH_SHORT).show();
+                        if(mDriverMarker !=null){
+                            mDriverMarker.remove();
+
+                        }
+                        Toast.makeText(CustomerMapsActivity.this, "no  driver", Toast.LENGTH_SHORT).show();
                     }
              //   }else {
                   //  Toast.makeText(CustomerMapsActivity.this, "no driver", Toast.LENGTH_SHORT).show();
@@ -221,6 +238,13 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
 
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-
+        DatabaseReference cdeleteRef = database.getReference().child("CustomerLocation").child("userid").child("getLatitude");
+        DatabaseReference cdeleteRef2 = database.getReference().child("CustomerLocation").child("userId").child("getLongitude");
+        cdeleteRef.setValue(null);
+        cdeleteRef2.setValue(null);
+    }
 }

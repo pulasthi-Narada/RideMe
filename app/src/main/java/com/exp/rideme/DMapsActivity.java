@@ -21,12 +21,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class DMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
@@ -64,6 +68,53 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
 
         }
 
+        getCustomer();
+
+
+    }
+
+    private void getCustomer() {
+
+        DatabaseReference  GetingCustomerLocation = database.getReference();
+        GetingCustomerLocation.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                if((dataSnapshot.child("CustomerLocation").child("userId").child("getLatitude").getValue()) !=null) {
+                    try {
+                        String Latitude = Objects.requireNonNull(dataSnapshot.child("CustomerLocation").child("userId").child("getLatitude").getValue()).toString();
+                        String Longitude = Objects.requireNonNull(dataSnapshot.child("CustomerLocation").child("userId").child("getLongitude").getValue()).toString();
+                        double la = Double.parseDouble(Latitude);
+                        double lo = Double.parseDouble(Longitude);
+
+                        LatLng CustomerLatitudeAndLongitude = new LatLng(la,lo);
+
+
+
+
+
+
+                        mMap.addMarker(new MarkerOptions().position(CustomerLatitudeAndLongitude).title("Pickup Location"));
+
+                    }catch (Exception e){
+
+                        Toast.makeText(DMapsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    //  Toast.makeText(CustomerMapsActivity.this, "have", Toast.LENGTH_SHORT).show();
+                }else {
+
+                    Toast.makeText(DMapsActivity.this, "NO Pickup", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
     }

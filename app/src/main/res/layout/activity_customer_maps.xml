@@ -6,10 +6,24 @@
     tools:context=".CustomerMapsActivity" >
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:id="@+id/cusMapBtn"/>
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:background="@drawable/logout"
+        android:id="@+id/cusMaplogout"
+
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="left|top"
+        android:layout_marginTop="50dp"/>
+    <Button
+        android:id="@+id/cussebtn"
+        android:background="@drawable/se"
+        android:layout_marginLeft="10dp"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

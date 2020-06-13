@@ -30,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class CustomerMapsActivity extends FragmentActivity implements OnMapReadyCallback ,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private GoogleMap mMap;
@@ -44,23 +46,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
     public int a = 1;
     private Button pickup;
     private  LatLng PickLocation;
-  /*  @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(CustomerMapsActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
-        } else {
-            mapFragment.getMapAsync(this);
-        }
-    }*/
 
 
     @Override
@@ -79,7 +65,9 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
                 createchild();
                 PickLocation = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(PickLocation).title("Pickup here"));
-                pickup.setText("Geting your Rider");
+                pickup.setText("Geting your Driver");
+
+                getRider();
 
             }
         });
@@ -89,6 +77,43 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
         }else {
             mapFragment.getMapAsync(this);
         }
+
+    }
+
+    private void getRider() {
+
+        DatabaseReference  GetingDriverLocation = database.getReference();
+      //  DatabaseReference  GetingDriverLocation2 = database.getReference().child("DriverLocation").child("userId").child("getLongitude");
+        GetingDriverLocation.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+             //   if((dataSnapshot.child("DriverLocation")).getValue() !=null){
+                    if((dataSnapshot.child("DriverLocation").child("userId").child("getLatitude").getValue()) !=null) {
+                        try {
+                            String Latitude = Objects.requireNonNull(dataSnapshot.child("DriverLocation").child("userId").child("getLatitude").getValue()).toString();
+                            String Longitude = Objects.requireNonNull(dataSnapshot.child("DriverLocation").child("userId").child("getLongitude").getValue()).toString();
+                            Toast.makeText(CustomerMapsActivity.this, Latitude + " " + Longitude, Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            Toast.makeText(CustomerMapsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                      //  Toast.makeText(CustomerMapsActivity.this, "have", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(CustomerMapsActivity.this, "no 1 driver", Toast.LENGTH_SHORT).show();
+                    }
+             //   }else {
+                  //  Toast.makeText(CustomerMapsActivity.this, "no driver", Toast.LENGTH_SHORT).show();
+                   //   pickup.setText("No  DriverS");
+              //  }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
     }
 

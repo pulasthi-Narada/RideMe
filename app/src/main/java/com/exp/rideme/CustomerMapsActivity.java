@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -211,7 +212,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
         LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
 
 
     }
@@ -242,9 +243,11 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
     protected void onDestroy() {
         super.onDestroy();
 
-        DatabaseReference cdeleteRef = database.getReference().child("CustomerLocation").child("userid").child("getLatitude");
-        DatabaseReference cdeleteRef2 = database.getReference().child("CustomerLocation").child("userId").child("getLongitude");
-        cdeleteRef.setValue(null);
-        cdeleteRef2.setValue(null);
+        DatabaseReference deleteCustomerLocationLa = database.getReference().child("CustomerLocation").child("userid").child("getLatitude");
+        DatabaseReference deleteCustomerLocationLo = database.getReference().child("CustomerLocation").child("userId").child("getLongitude");
+
+
+
+
     }
 }

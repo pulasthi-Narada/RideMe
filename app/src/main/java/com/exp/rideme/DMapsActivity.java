@@ -10,8 +10,15 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.directions.route.AbstractRouting;
+import com.directions.route.Route;
+import com.directions.route.RouteException;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -20,9 +27,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,13 +41,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class DMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
+public class DMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, RoutingListener {
 
     private GoogleMap mMap;
 
-
+  //  private Button DcanBtn;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
@@ -50,8 +63,11 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_d_maps);
+        polylines = new ArrayList<>();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.Dmap);
+     //   DcanBtn = (Button) findViewById(R.id.DriverMapCanselBtn);
+
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(DMapsActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_REQUEST_CODE);
         }else {
@@ -70,7 +86,15 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
 
         getCustomer();
 
+      /*   DcanBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
 
+                 erasePolylines();
+
+                 DcanBtn.setVisibility(View.INVISIBLE);
+             }
+         });*/
     }
 
     private void getCustomer() {
@@ -96,6 +120,7 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
 
 
                         mMap.addMarker(new MarkerOptions().position(CustomerLatitudeAndLongitude).title("Pickup Location"));
+                        getRouteToMarker(CustomerLatitudeAndLongitude);
 
                     }catch (Exception e){
 
@@ -105,6 +130,8 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
                 }else {
 
                     Toast.makeText(DMapsActivity.this, "NO Pickup", Toast.LENGTH_SHORT).show();
+
+
 
                 }
 
@@ -117,6 +144,17 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         });
 
 
+    }
+
+    private void getRouteToMarker(LatLng customerLatitudeAndLongitude) {
+        Routing routing = new Routing.Builder()
+                .key("AIzaSyBGKZ0A_usn1g9GJqpyArKkOYy4u4gkXy0")
+                .travelMode(AbstractRouting.TravelMode.DRIVING)
+                .withListener(this)
+                .alternativeRoutes(false)
+                .waypoints(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), customerLatitudeAndLongitude)
+                .build();
+        routing.execute();
     }
 
     @Override
@@ -148,10 +186,10 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     public void onLocationChanged(Location location) {
         mLastLocation = location;
 
-        LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-
+        LatLng  latLng = new LatLng(location.getLatitude(),location.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+
         createchild();
 
     }
@@ -179,6 +217,7 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
 
     protected synchronized void buildGoogleApiClient(){
         mGoogleApiClient = new GoogleApiClient.Builder(this)
+
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -205,6 +244,8 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         super.onStart();
         super.onStart();
         a = 1;
+
+
     }
     @Override
     protected void onStop() {
@@ -243,5 +284,61 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         DatabaseReference deleteRef2 = database.getReference().child("DriverLocation").child("userId").child("getLongitude");
         deleteRef.setValue(null);
         deleteRef2.setValue(null);
+    }
+    private List<Polyline> polylines;
+    private static final int[] COLORS = new int[]{R.color.primary_dark_material_light};
+    @Override
+    public void onRoutingFailure(RouteException e) {
+        if(e != null) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(this, "Something went wrong, Try again", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
+
+        if(polylines.size()>0) {
+            for (Polyline poly : polylines) {
+                poly.remove();
+            }
+        }
+
+        polylines = new ArrayList<>();
+        //add route(s) to the map.
+        for (int i = 0; i <route.size(); i++) {
+
+            //In case of more than 5 alternative routes
+            int colorIndex = i % COLORS.length;
+
+            PolylineOptions polyOptions = new PolylineOptions();
+            polyOptions.color(getResources().getColor(COLORS[colorIndex]));
+            polyOptions.width(10 + i * 3);
+            polyOptions.addAll(route.get(i).getPoints());
+            Polyline polyline = mMap.addPolyline(polyOptions);
+            polylines.add(polyline);
+
+         //   Toast.makeText(getApplicationContext(),"Route "+ (i+1) +": distance - "+ route.get(i).getDistanceValue()+": duration - "+ route.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    @Override
+    public void onRoutingCancelled() {
+
+    }
+    private void erasePolylines(){
+        for(Polyline line : polylines){
+            line.remove();
+        }
+        polylines.clear();
     }
 }

@@ -29,6 +29,7 @@ tools:context=".DMapsActivity" >
         android:layout_marginTop="50dp"
         android:layout_width="40dp"
         android:layout_height="40dp" />
+
 <fragment
     xmlns:map="http://schemas.android.com/apk/res-auto"
     android:id="@+id/Dmap"

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int radioId = rg.getCheckedRadioButtonId();
                 rb = (RadioButton) findViewById(radioId);
+
+
+                SQLiteDatabase RideMeDatabase = openOrCreateDatabase("RideMEDB",MODE_PRIVATE,null);
+                RideMeDatabase.execSQL("CREATE TABLE IF NOT EXISTS TutorialsPoint(phoneNumber VARCHAR,Password VARCHAR,loginKey int);");
 
                 if(rb.getText().toString().equalsIgnoreCase("Customer")){
 

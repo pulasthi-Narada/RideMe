@@ -27,7 +27,9 @@ public class LoginActivity extends AppCompatActivity {
     private RadioGroup rg;
     private RadioButton rb;
     private EditText phnumber,password;
-    private  int loginNumber;
+
+
+
     String  num ;
     String passs;
 
@@ -50,8 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 rb = (RadioButton) findViewById(radioId);
 
 
-                SQLiteDatabase RideMeDatabase = openOrCreateDatabase("RideMEDB",MODE_PRIVATE,null);
-                RideMeDatabase.execSQL("CREATE TABLE IF NOT EXISTS TutorialsPoint(phoneNumber VARCHAR,Password VARCHAR,loginKey int);");
+
 
                 if ((TextUtils.isEmpty(phnumber.getText().toString())) || (TextUtils.isEmpty(password.getText().toString()))){
                     Toast.makeText(LoginActivity.this, "input filds can't be blank", Toast.LENGTH_SHORT).show();
@@ -68,7 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     DatabaseReference customer_login = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers");
 
-
+                    final String n =phnumber.getText().toString();
+                    final String c ="Customers";
                     customer_login.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -77,10 +79,16 @@ public class LoginActivity extends AppCompatActivity {
 
                                 if (Objects.equals(dataSnapshot.child(num).child("password").getValue(), password.getText().toString())){
                                     Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                    loginNumber = 0;
+
+                                     /*LoginDetais logd = new LoginDetais();
+
+
+                                     logd.setLoginPhoneNumber(n);
+                                     logd.setCatogery(c);
+                                    Toast.makeText(LoginActivity.this, logd.getCatogery() + " " + logd.getLoginPhoneNumber(), Toast.LENGTH_SHORT).show();*/
+
                                     Intent intent = new Intent(LoginActivity.this, CustomerMapsActivity.class);
                                     startActivity(intent);
-                                    finish();
 
                                 }else {
                                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
@@ -115,10 +123,12 @@ public class LoginActivity extends AppCompatActivity {
 
                                 if (Objects.equals(dataSnapshot.child(phnumber.getText().toString()).child("password").getValue(), password.getText().toString())) {
                                     Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+                                   /* LoginDetais logdd = new LoginDetais(n,c);
+                                    logdd.setLoginPhoneNumber(phnumber.getText().toString());
+                                    logdd.setCatogery("Drivers");*/
                                     Intent intent = new Intent(LoginActivity.this, DMapsActivity.class);
                                     startActivity(intent);
-                                    finish();
-                                    return;
+
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                                 }
@@ -145,8 +155,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent);
-                finish();
-                return;
+
             }
         });
 

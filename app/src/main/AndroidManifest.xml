@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".weatherActivity"></activity>
+        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".weatherActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -20,8 +21,10 @@
         -->
         <activity
             android:name=".CustomerMapsActivity"
-            android:label="@string/title_activity_customer_maps" />
-        <activity android:name=".DMapsActivity" />
+            android:label="@string/title_activity_customer_maps"
+            android:noHistory="true"/>
+        <activity android:name=".DMapsActivity"
+            android:noHistory="true"/>
         <activity android:name=".RegActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CActivity" />
@@ -37,9 +40,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

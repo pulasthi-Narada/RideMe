@@ -14,21 +14,16 @@ tools:context=".DMapsActivity" >
 
         android:layout_marginLeft="10dp"
         android:layout_gravity="left|top"
-        android:layout_marginTop="100dp"/>
-    <Button
-        android:id="@+id/DriverSettingBtn"
-        android:background="@drawable/se"
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"/>
 
-        android:layout_width="40dp"
-        android:layout_height="40dp" />
     <Button
         android:id="@+id/DriverweatherBtn"
         android:background="@drawable/iweth"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
+
         android:layout_width="40dp"
         android:layout_height="40dp" />
+
 
 <fragment
     xmlns:map="http://schemas.android.com/apk/res-auto"

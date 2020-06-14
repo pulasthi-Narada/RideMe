@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -56,7 +58,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
     private String userId = FirebaseAuth.getInstance().getUid();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     public int a = 1;
-    private Button pickup,CusWeatherBtn;
+    private Button pickup,CusWeatherBtn,CustomerLogout,CsettingBtn;
     private  LatLng PickLocation;
 
 
@@ -72,6 +74,8 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
 
         pickup = (Button) findViewById(R.id.cusMapReqBtn);
         CusWeatherBtn = (Button) findViewById(R.id.customerweatherBtn);
+        CustomerLogout = (Button) findViewById(R.id.cusMaplogout);
+        //CsettingBtn = (Button) findViewById(R.id.customerSettingBtn);
 
         pickup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,10 +103,29 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
             public void onClick(View v) {
                 Intent intent = new Intent(CustomerMapsActivity.this,weatherActivity.class);
                 startActivity(intent);
-                finish();
-                return;
+
             }
         });
+
+        CustomerLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomerMapsActivity.this, MainActivity.class);
+                startActivity(intent);
+
+
+                Toast.makeText(CustomerMapsActivity.this, "Logout successfully" , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+       /* CsettingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomerMapsActivity.this, SettingActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });*/
 
     }
 
@@ -276,7 +299,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
 
 
 
-    @Override
+    /*@Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -286,9 +309,9 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
 
 
 
-    }
+    }*/
     private List<Polyline> polylines;
-    private static final int[] COLORS = new int[]{R.color.primary_dark_material_light};
+    private static final int[] COLORS = new int[]{R.color.main_green_stroke_color};
     @Override
     public void onRoutingFailure(RouteException e) {
 

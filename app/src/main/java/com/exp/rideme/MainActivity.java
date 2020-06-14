@@ -41,10 +41,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish();
-                return;
+
 
 
 
@@ -53,10 +52,9 @@ public class MainActivity extends AppCompatActivity {
         FristRegBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,RegActivity.class);
+
+                Intent intent = new Intent(MainActivity.this, RegActivity.class);
                 startActivity(intent);
-                finish();
-                return;
             }
         });
 

@@ -57,9 +57,9 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     private SupportMapFragment mapFragment;
     private String userId = FirebaseAuth.getInstance().getUid();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    public int a = 1;
+   // public int a = 1;
 
-    private  Button DriverWeatherBtn;
+    private  Button DriverWeatherBtn,driverLogoutBtn,driverSetting;
 
 
     @Override
@@ -72,7 +72,10 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.Dmap);
 
 
+
         DriverWeatherBtn = (Button) findViewById(R.id.DriverweatherBtn);
+        driverLogoutBtn = (Button) findViewById(R.id.driverMaplogout);
+       // driverSetting = (Button) findViewById(R.id.DriverSettingBtn);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(DMapsActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_REQUEST_CODE);
@@ -81,26 +84,18 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         }
     }
     private void createchild() {
-        if(a==1) {
+      //  if(a==1) {
             DatabaseReference myRef = database.getReference().child("DriverLocation").child("userId").child("getLatitude");
             DatabaseReference myRef2 = database.getReference().child("DriverLocation").child("userId").child("getLongitude");
             myRef.setValue(String.valueOf(mLastLocation.getLatitude()));
             myRef2.setValue(String.valueOf(mLastLocation.getLongitude()));
 
 
-        }
+     //   }
 
         getCustomer();
 
-      /*   DcanBtn.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
 
-                 erasePolylines();
-
-                 DcanBtn.setVisibility(View.INVISIBLE);
-             }
-         });*/
 
       //call weatherActivity
       DriverWeatherBtn.setOnClickListener(new View.OnClickListener() {
@@ -108,11 +103,30 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
           public void onClick(View v) {
               Intent intent = new Intent(DMapsActivity.this,weatherActivity.class);
               startActivity(intent);
-              finish();
-              return;
+
 
           }
       });
+
+      driverLogoutBtn.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              Intent intent = new Intent(DMapsActivity.this, MainActivity.class);
+              startActivity(intent);
+
+
+              Toast.makeText(DMapsActivity.this, "Logout successfully" , Toast.LENGTH_SHORT).show();
+          }
+      });
+
+    /*  driverSetting.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              Intent intent = new Intent(DMapsActivity.this, SettingActivity.class);
+              startActivity(intent);
+              finish();
+          }
+      });*/
 
     }
 
@@ -139,7 +153,8 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
 
 
                         mMap.addMarker(new MarkerOptions().position(CustomerLatitudeAndLongitude).title("Pickup Location"));
-                        Toast.makeText(DMapsActivity.this, "Pickup here", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(DMapsActivity.this, "Pickup here", Toast.LENGTH_SHORT).show();
+
                         getRouteToMarker(CustomerLatitudeAndLongitude);
 
                     }catch (Exception e){
@@ -156,6 +171,8 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
                 }
 
             }
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -263,10 +280,11 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     protected void onStart() {
         super.onStart();
         super.onStart();
-        a = 1;
+     //   a = 1;
 
 
     }
+    /*
     @Override
     protected void onStop() {
         super.onStop();
@@ -304,9 +322,9 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         DatabaseReference deleteRef2 = database.getReference().child("DriverLocation").child("userId").child("getLongitude");
         deleteRef.setValue(null);
         deleteRef2.setValue(null);
-    }
+    }*/
     private List<Polyline> polylines;
-    private static final int[] COLORS = new int[]{R.color.primary_dark_material_light};
+    private static final int[] COLORS = new int[]{R.color.main_blue_color};
     @Override
     public void onRoutingFailure(RouteException e) {
         if(e != null) {

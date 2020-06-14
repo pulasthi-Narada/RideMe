@@ -114,6 +114,8 @@ public class RegActivity extends AppCompatActivity {
 
                                     customer_register.setValue(cus);
                                     Toast.makeText(RegActivity.this, "Register successful", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(RegActivity.this, CustomerMapsActivity.class);
+                                    startActivity(intent);
 
 
                                 }
@@ -143,6 +145,8 @@ public class RegActivity extends AppCompatActivity {
                                     Toast.makeText(RegActivity.this, "you select Driver", Toast.LENGTH_SHORT).show();
 
                                     DatabaseReference driver_regster = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(txtContact.getText().toString());
+                                    Intent intent = new Intent(RegActivity.this, DMapsActivity.class);
+                                    startActivity(intent);
                                     // Read customer id from the database
                             /* driver_id.addValueEventListener(new ValueEventListener() {
                                  @Override
@@ -197,8 +201,7 @@ public class RegActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(RegActivity.this,MainActivity.class);
                 startActivity(intent);
-                finish();
-                return;
+
             }
         });
 

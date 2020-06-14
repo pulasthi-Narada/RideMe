@@ -21,10 +21,8 @@
         -->
         <activity
             android:name=".CustomerMapsActivity"
-            android:label="@string/title_activity_customer_maps"
-            android:noHistory="true"/>
-        <activity android:name=".DMapsActivity"
-            android:noHistory="true"/>
+            android:label="@string/title_activity_customer_maps" />
+        <activity android:name=".DMapsActivity" />
         <activity android:name=".RegActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CActivity" />

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/vv"
     tools:context=".LoginActivity">
     <EditText
         android:id="@+id/Loginnumber"
@@ -11,6 +12,8 @@
         android:layout_height="55dp"
         android:ems="10"
         android:inputType="number"
+        android:textColorHint="#F7FBFB"
+        android:textColor="#F7FBFB"
         android:hint="Phone number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
@@ -48,6 +52,8 @@
         android:layout_height="56dp"
         android:ems="10"
         android:hint="Password"
+        android:textColorHint="#F7FBFB"
+        android:textColor="#F7FBFB"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,6 +79,7 @@
             android:layout_width="258dp"
             android:layout_height="wrap_content"
             android:text="Customer"
+            android:textColor="#F7FBFB"
 
             android:checked="true"/>
 
@@ -80,6 +87,7 @@
             android:id="@+id/LDradioBtn"
             android:layout_width="259dp"
             android:layout_height="wrap_content"
+            android:textColor="#F7FBFB"
             android:text="Driver" />
     </RadioGroup>
 

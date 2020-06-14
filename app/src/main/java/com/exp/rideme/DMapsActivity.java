@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -58,15 +59,20 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     public int a = 1;
 
+    private  Button DriverWeatherBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_d_maps);
+
         polylines = new ArrayList<>();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.Dmap);
-     //   DcanBtn = (Button) findViewById(R.id.DriverMapCanselBtn);
+
+
+        DriverWeatherBtn = (Button) findViewById(R.id.DriverweatherBtn);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(DMapsActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_REQUEST_CODE);
@@ -95,6 +101,19 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
                  DcanBtn.setVisibility(View.INVISIBLE);
              }
          });*/
+
+      //call weatherActivity
+      DriverWeatherBtn.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              Intent intent = new Intent(DMapsActivity.this,weatherActivity.class);
+              startActivity(intent);
+              finish();
+              return;
+
+          }
+      });
+
     }
 
     private void getCustomer() {
@@ -120,6 +139,7 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
 
 
                         mMap.addMarker(new MarkerOptions().position(CustomerLatitudeAndLongitude).title("Pickup Location"));
+                        Toast.makeText(DMapsActivity.this, "Pickup here", Toast.LENGTH_SHORT).show();
                         getRouteToMarker(CustomerLatitudeAndLongitude);
 
                     }catch (Exception e){
@@ -129,7 +149,7 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
                     //  Toast.makeText(CustomerMapsActivity.this, "have", Toast.LENGTH_SHORT).show();
                 }else {
 
-                    Toast.makeText(DMapsActivity.this, "NO Pickup", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(DMapsActivity.this, "NO Pickup", Toast.LENGTH_SHORT).show();
 
 
 

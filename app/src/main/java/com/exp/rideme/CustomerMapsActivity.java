@@ -11,7 +11,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -155,8 +157,8 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
                             getRouteToMarker(driverLatitudeAndLongitude);
 
                         }catch (Exception e){
+                            Log.e("RideMe", "exception", e);
 
-                            Toast.makeText(CustomerMapsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                       //  Toast.makeText(CustomerMapsActivity.this, "have", Toast.LENGTH_SHORT).show();
                     }else {

@@ -58,7 +58,7 @@ public class weatherActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
-                //Log.e("Response" , response);
+               // Log.e("Response" , response);
                 try
                 {
                     JSONObject WeatherDataObject = new JSONObject(response); // created JSON object to get Data

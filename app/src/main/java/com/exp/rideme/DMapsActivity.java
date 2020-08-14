@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -158,8 +159,8 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
                         getRouteToMarker(CustomerLatitudeAndLongitude);
 
                     }catch (Exception e){
+                        Log.e("RideMe", "exception", e);
 
-                        Toast.makeText(DMapsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     //  Toast.makeText(CustomerMapsActivity.this, "have", Toast.LENGTH_SHORT).show();
                 }else {

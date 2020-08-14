@@ -51,101 +51,11 @@ public class LoginActivity extends AppCompatActivity {
                 int radioId = rg.getCheckedRadioButtonId();
                 rb = (RadioButton) findViewById(radioId);
 
+                 if(LoginValidation()==1){
+                     Login();
+                 }
 
 
-
-                if ((TextUtils.isEmpty(phnumber.getText().toString())) || (TextUtils.isEmpty(password.getText().toString()))){
-                    Toast.makeText(LoginActivity.this, "input filds can't be blank", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
-
-                else if(rb.getText().toString().equalsIgnoreCase("Customer")){
-
-                    num = phnumber.getText().toString();
-                    passs = password.getText().toString();
-
-                    DatabaseReference customer_login = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers");
-
-                    final String n =phnumber.getText().toString();
-                    final String c ="Customers";
-                    customer_login.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.child(num).exists()) {
-
-
-                                if (Objects.equals(dataSnapshot.child(num).child("password").getValue(), password.getText().toString())){
-                                    Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-
-                                     /*LoginDetais logd = new LoginDetais();
-
-
-                                     logd.setLoginPhoneNumber(n);
-                                     logd.setCatogery(c);
-                                    Toast.makeText(LoginActivity.this, logd.getCatogery() + " " + logd.getLoginPhoneNumber(), Toast.LENGTH_SHORT).show();*/
-
-                                    Intent intent = new Intent(LoginActivity.this, CustomerMapsActivity.class);
-                                    startActivity(intent);
-
-                                }else {
-                                    Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }else {
-                                Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-
-
-
-
-
-                }else{
-
-                    DatabaseReference Driverlogin = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers");
-
-                    Driverlogin.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            if (dataSnapshot.child(phnumber.getText().toString()).exists()) {
-
-
-                                if (Objects.equals(dataSnapshot.child(phnumber.getText().toString()).child("password").getValue(), password.getText().toString())) {
-                                    Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
-                                   /* LoginDetais logdd = new LoginDetais(n,c);
-                                    logdd.setLoginPhoneNumber(phnumber.getText().toString());
-                                    logdd.setCatogery("Drivers");*/
-                                    Intent intent = new Intent(LoginActivity.this, DMapsActivity.class);
-                                    startActivity(intent);
-
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                                }
-                            }else {
-                                Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
             }
         });
 
@@ -159,5 +69,89 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void Login() {
+        if(rb.getText().toString().equalsIgnoreCase("Customer")){
+            num = phnumber.getText().toString();
+            passs = password.getText().toString();
+
+            DatabaseReference customer_login = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers");
+
+            final String n =phnumber.getText().toString();
+            final String c ="Customers";
+            customer_login.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.child(num).exists()) {
+
+
+                        if (Objects.equals(dataSnapshot.child(num).child("password").getValue(), password.getText().toString())){
+                            Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+
+
+                            Intent intent = new Intent(LoginActivity.this, CustomerMapsActivity.class);
+                            startActivity(intent);
+
+                        }else {
+                            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else {
+                        Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }else{
+
+            DatabaseReference Driverlogin = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers");
+
+            Driverlogin.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.child(phnumber.getText().toString()).exists()) {
+
+
+                        if (Objects.equals(dataSnapshot.child(phnumber.getText().toString()).child("password").getValue(), password.getText().toString())) {
+                            Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(LoginActivity.this, DMapsActivity.class);
+                            startActivity(intent);
+
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+    }
+
+
+
+    private int LoginValidation() {
+        if ((TextUtils.isEmpty(phnumber.getText().toString())) || (TextUtils.isEmpty(password.getText().toString()))){
+            Toast.makeText(LoginActivity.this, "input filds can't be blank", Toast.LENGTH_SHORT).show();
+            return 0;
+        }else {
+            return 1;
+        }
     }
 }

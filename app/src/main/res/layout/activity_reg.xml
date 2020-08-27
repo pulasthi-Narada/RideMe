@@ -204,7 +204,7 @@
             android:layout_height="wrap_content"
             android:text="Customer"
 
-            android:checked="true"/>
+           />
 
         <RadioButton
             android:id="@+id/DradioBtn"
@@ -212,7 +212,8 @@
             android:textColorHint="#F7FBFB"
             android:textColor="#F7FBFB"
             android:layout_height="wrap_content"
-            android:text="Driver" />
+            android:text="Driver"
+            android:checked="true"/>
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,13 +2,17 @@ package com.exp.rideme;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +50,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class DMapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, RoutingListener {
 
@@ -120,14 +127,7 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
           }
       });
 
-    /*  driverSetting.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              Intent intent = new Intent(DMapsActivity.this, SettingActivity.class);
-              startActivity(intent);
-              finish();
-          }
-      });*/
+
 
     }
 
@@ -149,23 +149,29 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
                         LatLng CustomerLatitudeAndLongitude = new LatLng(la,lo);
 
 
+                        int height = 100;
+                        int width = 100;
+                        BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.man);
+                        Bitmap b = bitmapdraw.getBitmap();
+                        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                        mMap.addMarker(new MarkerOptions().position(CustomerLatitudeAndLongitude).title("Customer").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
 
 
 
 
-                        mMap.addMarker(new MarkerOptions().position(CustomerLatitudeAndLongitude).title("Pickup Location"));
-                       // Toast.makeText(DMapsActivity.this, "Pickup here", Toast.LENGTH_SHORT).show();
 
-                        getRouteToMarker(CustomerLatitudeAndLongitude);
+
+                           getRouteToMarker(CustomerLatitudeAndLongitude);
+
 
                     }catch (Exception e){
                         Log.e("RideMe", "exception", e);
 
                     }
-                    //  Toast.makeText(CustomerMapsActivity.this, "have", Toast.LENGTH_SHORT).show();
+
                 }else {
 
-                  //  Toast.makeText(DMapsActivity.this, "NO Pickup", Toast.LENGTH_SHORT).show();
+
 
 
 
@@ -184,8 +190,11 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
 
     }
 
+
+
     private void getRouteToMarker(LatLng customerLatitudeAndLongitude) {
         Routing routing = new Routing.Builder()
+
                 .key("AIzaSyBGKZ0A_usn1g9GJqpyArKkOYy4u4gkXy0")
                 .travelMode(AbstractRouting.TravelMode.DRIVING)
                 .withListener(this)
@@ -241,10 +250,7 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
             case  LOCATION_REQUEST_CODE:{
                 if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     mapFragment.getMapAsync(this);
-                   /* if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                        mMap.setMyLocationEnabled(true);
-                    }*/
+
                 } else{
                     Toast.makeText(getApplicationContext(), "Please provide the permission", Toast.LENGTH_LONG).show();
                 }
@@ -281,49 +287,11 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     protected void onStart() {
         super.onStart();
         super.onStart();
-     //   a = 1;
 
 
-    }
-    /*
-    @Override
-    protected void onStop() {
-        super.onStop();
-        DatabaseReference deleteRef = database.getReference().child("DriverLocation").child("userId").child("getLatitude");
-        DatabaseReference deleteRef2 = database.getReference().child("DriverLocation").child("userId").child("getLongitude");
-        deleteRef.setValue(null);
-        deleteRef2.setValue(null);
-        deleteRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                // Log.d(TAG, "Value is: " + value);
-                if(value!=null){
-                    a =1;
-                }else {
-                    a = 0;
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                //  Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        DatabaseReference deleteRef = database.getReference().child("DriverLocation").child("userId").child("getLatitude");
-        DatabaseReference deleteRef2 = database.getReference().child("DriverLocation").child("userId").child("getLongitude");
-        deleteRef.setValue(null);
-        deleteRef2.setValue(null);
-    }*/
     private List<Polyline> polylines;
     private static final int[] COLORS = new int[]{R.color.main_blue_color};
     @Override
@@ -364,7 +332,7 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
             Polyline polyline = mMap.addPolyline(polyOptions);
             polylines.add(polyline);
 
-         //   Toast.makeText(getApplicationContext(),"Route "+ (i+1) +": distance - "+ route.get(i).getDistanceValue()+": duration - "+ route.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
+
         }
 
 
@@ -379,5 +347,25 @@ public class DMapsActivity extends FragmentActivity implements OnMapReadyCallbac
             line.remove();
         }
         polylines.clear();
+    }
+     int rep;
+    private int  CustomerFoundMessage() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(DMapsActivity.this);
+        builder.setMessage("Customer found").setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+              rep=1;
+            }
+        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                rep=0;
+            }
+        });
+
+        AlertDialog alert =builder.create();
+        alert.show();
+        return rep;
     }
 }

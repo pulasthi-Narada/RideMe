@@ -49,14 +49,14 @@ public class RegActivity extends AppCompatActivity {
 
 
         btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                        @Override
+                        public void onClick(View v) {
 
 
 
-                if(RegInputValidation()==1) {
+                            if(RegInputValidation()==1) {
 
-                    SendData();
+                                SendData();
 
                 }
 
@@ -185,10 +185,7 @@ public class RegActivity extends AppCompatActivity {
             Toast.makeText(RegActivity.this, "password can't be blank ", Toast.LENGTH_SHORT).show();
             return 0;
         }
-        else if(  TextUtils.isEmpty(txtConfirm.getText().toString())) {
-            Toast.makeText(RegActivity.this, "Confirm password can't be blank ", Toast.LENGTH_SHORT).show();
-            return 0;
-        }
+
         else if(  TextUtils.isEmpty(txtConfirm.getText().toString())) {
             Toast.makeText(RegActivity.this, "Confirm password can't be blank ", Toast.LENGTH_SHORT).show();
             return 0;

@@ -29,7 +29,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Call Rider"
+        android:text="Call Drive"
 
         android:id="@+id/cusMapReqBtn"
         android:layout_gravity="bottom"/>

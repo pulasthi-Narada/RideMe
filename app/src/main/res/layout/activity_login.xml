@@ -64,7 +64,7 @@
 
 
     <RadioGroup
-        android:id="@+id/Lradiogrop"
+        android:id="@+id/radiogrop"
         android:layout_width="315dp"
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,14 +81,15 @@
             android:text="Customer"
             android:textColor="#F7FBFB"
 
-            android:checked="true"/>
+            />
 
         <RadioButton
             android:id="@+id/LDradioBtn"
             android:layout_width="259dp"
             android:layout_height="wrap_content"
             android:textColor="#F7FBFB"
-            android:text="Driver" />
+            android:text="Driver"
+            android:checked="true"/>
     </RadioGroup>
 
 

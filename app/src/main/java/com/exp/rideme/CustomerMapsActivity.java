@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -84,7 +86,12 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
             public void onClick(View v) {
                 createchild();
                 PickLocation = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(PickLocation).title("Pickup here"));
+                int height = 100;
+                int width = 100;
+                BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.man);
+                Bitmap b = bitmapdraw.getBitmap();
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                mMap.addMarker(new MarkerOptions().position(PickLocation).title("Customer Location").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
 
                 pickup.setText("Geting your Driver");
 
@@ -120,14 +127,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
             }
         });
 
-       /* CsettingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CustomerMapsActivity.this, SettingActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });*/
+
 
     }
 
@@ -152,7 +152,13 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
                                 mDriverMarker.remove();
 
                             }
-                            mDriverMarker =mMap.addMarker(new MarkerOptions().position(driverLatitudeAndLongitude).title("Your Driver"));
+
+                            int height = 100;
+                            int width = 100;
+                            BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.car3);
+                            Bitmap b = bitmapdraw.getBitmap();
+                            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                            mMap.addMarker(new MarkerOptions().position(driverLatitudeAndLongitude).title("Driver").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
                             pickup.setText(" Driver found");
                             getRouteToMarker(driverLatitudeAndLongitude);
 
@@ -169,10 +175,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
                         Toast.makeText(CustomerMapsActivity.this, "no  driver", Toast.LENGTH_SHORT).show();
                         pickup.setText(" No drivers ");
                     }
-             //   }else {
-                  //  Toast.makeText(CustomerMapsActivity.this, "no driver", Toast.LENGTH_SHORT).show();
-                   //   pickup.setText("No  DriverS");
-              //  }
+
             }
 
             @Override
@@ -287,10 +290,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
             case  LOCATION_REQUEST_CODE:{
                 if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     mapFragment.getMapAsync(this);
-                   /* if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                        mMap.setMyLocationEnabled(true);
-                    }*/
+
                 } else{
                     Toast.makeText(getApplicationContext(), "Please provide the permission", Toast.LENGTH_LONG).show();
                 }
@@ -301,17 +301,7 @@ public class CustomerMapsActivity extends FragmentActivity implements OnMapReady
 
 
 
-    /*@Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-        DatabaseReference deleteCustomerLocationLa = database.getReference().child("CustomerLocation").child("userid").child("getLatitude");
-        DatabaseReference deleteCustomerLocationLo = database.getReference().child("CustomerLocation").child("userId").child("getLongitude");
-
-
-
-
-    }*/
     private List<Polyline> polylines;
     private static final int[] COLORS = new int[]{R.color.main_green_stroke_color};
     @Override

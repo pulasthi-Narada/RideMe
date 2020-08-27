@@ -48,7 +48,7 @@ Register your app and follow the instruction given there
 
 <img src="Screenshots/s.png" width="800" higth="800">
 
-  <br/>Android package name := com.exp.rideme<br/>
+  <br/>Android package name  com.exp.rideme<br/>
   
  6) Create a Realtime Database 
   

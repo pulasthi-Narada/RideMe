@@ -12,7 +12,7 @@ how to Step this project.
 3) Go to firebase console.
 https://firebase.google.com/
 
-3) If you haven't already, create a Firebase project: In the Firebase console, click Add project, then follow the on-screen instructions to create a Firebase project or to add Firebase services to an existing GCP project.
+4) If you haven't already, create a Firebase project: In the Firebase console, click Add project, then follow the on-screen instructions to create a Firebase project or to add Firebase services to an existing GCP project.
 
 click Add project.
 
@@ -24,7 +24,7 @@ Enter Project name.
 
 
 
-After creating your project,go to Created project and add android app  to your project.
+5) After creating your project,go to Created project and add android app  to your project.
 
 
 <img src="Screenshots/3.jpg" width="800" higth="800"><p></p>
@@ -35,7 +35,7 @@ Register your app and follow the instruction given there
 
   <br/>Android package name := com.exp.rideme<br/>
   
-  Create a Realtime Database 
+ 6) Create a Realtime Database 
   
   <img src="Screenshots/4.png" width="800" higth="800">
 
@@ -45,6 +45,7 @@ Register your app and follow the instruction given there
  
  <img src="Screenshots/6.png" width="800" higth="800">
 
+7) Run project on android studio.
 
 
 

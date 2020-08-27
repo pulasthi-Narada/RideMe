@@ -3,7 +3,7 @@ this project is android application like Uber app, PickMe app but project scope 
 
 this project is build using java and use Firebase real time database.
  
-                                                         RideMe app  ScreenShots  
+                                             RideMe app  ScreenShots  
                                                          
 Customer interface<br/>
 
